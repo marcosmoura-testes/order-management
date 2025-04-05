@@ -4,27 +4,24 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Infrastructure.Map
 {
-    public class DealerContactMap : IEntityTypeConfiguration<DealerContact>
+    internal class DealerPhoneMap : IEntityTypeConfiguration<DealerPhone>
     {
-        public void Configure(EntityTypeBuilder<DealerContact> builder)
+        public void Configure(EntityTypeBuilder<DealerPhone> builder)
         {
-            builder.ToTable("DealerContact");
+            builder.ToTable("DealerPhone");
 
             builder.HasKey(d => d.Id);
 
             builder.Property(d => d.Id)
                 .ValueGeneratedOnAdd();
 
-            builder.Property(d => d.Name)
-                .IsRequired()
-                .HasMaxLength(100);
+            builder.Property(d => d.PhoneNumber)
+                .HasMaxLength(15);
 
             builder.Property(d => d.DealerId);
 
-            builder.Property(d => d.ContactDefault);
-
             builder.HasOne<Dealer>()
-                .WithMany(d => d.ContacstDealer)
+                .WithMany(d => d.PhonesDealer)
                 .HasForeignKey(d => d.DealerId)
                 .OnDelete(DeleteBehavior.Cascade);
         }

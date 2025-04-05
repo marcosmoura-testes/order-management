@@ -9,6 +9,7 @@ GO
 -- IF OBJECT_ID('ClientOrder', 'U') IS NOT NULL DROP TABLE ClientOrder;
 -- IF OBJECT_ID('Product', 'U') IS NOT NULL DROP TABLE Product;
 -- IF OBJECT_ID('DealerDeliveryAddress', 'U') IS NOT NULL DROP TABLE DealerDeliveryAddress;
+-- IF OBJECT_ID('DealerPhone', 'U') IS NOT NULL DROP TABLE DealerPhone;
 -- IF OBJECT_ID('DealerContact', 'U') IS NOT NULL DROP TABLE DealerContact;
 -- IF OBJECT_ID('Dealer', 'U') IS NOT NULL DROP TABLE Dealer;
 -- IF OBJECT_ID('ProductCategory', 'U') IS NOT NULL DROP TABLE ProductCategory;
@@ -36,6 +37,15 @@ CREATE TABLE Dealer (
     RazaoSocial VARCHAR(100) NOT NULL,
     NomeFantasia VARCHAR(100) NULL,
     Email NVARCHAR(100) NULL
+);
+GO
+
+-- Contatos do revendedor
+CREATE TABLE DealerPhone (
+    Id INT IDENTITY(1,1) PRIMARY KEY,
+    PhoneNumber NVARCHAR(15) NULL,
+    DealerId INT NOT NULL,
+    FOREIGN KEY (DealerId) REFERENCES Dealer(Id) ON DELETE CASCADE
 );
 GO
 

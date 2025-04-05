@@ -10,7 +10,9 @@ namespace Domain.Entity
         public string CNPJ { get; set; }
         public string RazaoSocial { get; set; }
         public string NomeFantasia { get; set; }
+        
         public string Email { get; set; }
+        public List<DealerPhone> PhonesDealer { get; set; } = new List<DealerPhone>();
         public List<DealerContact> ContacstDealer{ get; set; } = new List<DealerContact>();   
         public List<DealerDeliveryAddress> DealerDeliveryAddress { get; set; } = new List<DealerDeliveryAddress>();
     }

@@ -37,11 +37,23 @@ namespace Application.UseCases
                 if (existingContact != null)
                 {
                     existingContact.Name = contact.Name;
-                    existingContact.PhoneNumber = contact.PhoneNumber;
                 }
                 else
                 {
                     existingDealer.ContacstDealer.Add(contact);
+                }
+            }
+
+            foreach (var phone in dealer.PhonesDealer)
+            {
+                var existingPone = existingDealer.PhonesDealer.FirstOrDefault(c => c.Id == phone.Id);
+                if (existingPone != null)
+                {
+                    existingPone.PhoneNumber = phone.PhoneNumber;
+                }
+                else
+                {
+                    existingDealer.PhonesDealer.Add(phone);
                 }
             }
 

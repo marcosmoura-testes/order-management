@@ -45,6 +45,11 @@ namespace Infrastructure
             {
                 entity.HasKey(e => e.Id);
                 entity.Property(e => e.Name).IsRequired().HasMaxLength(100);
+            });
+
+            modelBuilder.Entity<DealerPhone>(entity =>
+            {
+                entity.HasKey(e => e.Id);
                 entity.Property(e => e.PhoneNumber).IsRequired().HasMaxLength(15);
             });
 
