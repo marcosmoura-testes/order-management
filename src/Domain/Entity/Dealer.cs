@@ -24,14 +24,39 @@ namespace Domain.Entity
            .Must(BeValidCNPJ).WithMessage("Invalid CNPJ");
 
             RuleFor(dealer => dealer.RazaoSocial)
-                .NotEmpty().WithMessage("Razao Social is required");
+                .NotEmpty().WithMessage("Razao Social is required")
+                .Must(BeValidRazaoSocialFantasia).WithMessage("Razao Social is inválid");
 
             RuleFor(dealer => dealer.NomeFantasia)
-                .NotEmpty().WithMessage("Nome Fantasia is required");
+                .NotEmpty().WithMessage("Nome Fantasia is required")
+                .Must(BeValidRazaoSocialFantasia).WithMessage("Nome Fantasia is inválid");
 
             RuleFor(dealer => dealer.Email)
                 .NotEmpty().WithMessage("Email is required")
                 .EmailAddress().WithMessage("Invalid Email");
+
+            RuleFor(dealer => dealer.ContacstDealer)
+                .NotNull().WithMessage("ContacstDealer is required")
+                .Must(contacts => contacts.Count > 0).WithMessage("ContacstDealer must have at least one contact");
+
+            RuleFor(dealer => dealer.DealerDeliveryAddress)
+                .NotNull().WithMessage("DealerDeliveryAddress is required")
+                .Must(addresses => addresses.Count > 0).WithMessage("DealerDeliveryAddress must have at least one address");
+
+        }
+
+        private bool BeValidRazaoSocialFantasia(string razaoSocial)
+        {
+            if (string.IsNullOrWhiteSpace(razaoSocial))
+                return false;
+
+            if (razaoSocial.Length < 5)
+                return false;
+
+            if (!Regex.IsMatch(razaoSocial, @"^[a-zA-Z0-9\s]+$"))
+                return false;
+
+            return true;
         }
 
         private bool BeValidCNPJ(string cnpj)
