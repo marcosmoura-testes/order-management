@@ -1,0 +1,17 @@
+version: '3.8'
+
+services:
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    container_name: sqlserver_container
+    environment:
+      SA_PASSWORD: "SuaSenhaForte@123"  # Use uma senha forte (mínimo 8 caracteres, com maiúscula, minúscula, número e símbolo)
+      ACCEPT_EULA: "Y"
+    ports:
+      - "1433:1433"
+    volumes:
+      - sql_data:/var/opt/mssql
+    restart: always
+
+volumes:
+  sql_data:
