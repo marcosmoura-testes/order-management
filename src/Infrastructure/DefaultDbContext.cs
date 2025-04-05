@@ -37,7 +37,7 @@ namespace Infrastructure
                 entity.Property(e => e.RazaoSocial).IsRequired().HasMaxLength(100);
                 entity.Property(e => e.NomeFantasia).HasMaxLength(100);
                 entity.Property(e => e.Email).HasMaxLength(100);
-                entity.HasMany(e => e.TeleContacstDealer).WithOne().HasForeignKey(dc => dc.DealerId);
+                entity.HasMany(e => e.ContacstDealer).WithOne().HasForeignKey(dc => dc.DealerId);
                 entity.HasMany(e => e.DealerDeliveryAddress).WithOne().HasForeignKey(dda => dda.DealerId);
             });
 

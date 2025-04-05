@@ -35,7 +35,7 @@ namespace Infrastructure.Map
                 .IsRequired()
                 .HasMaxLength(100);
 
-            builder.HasMany(d => d.TeleContacstDealer)
+            builder.HasMany(d => d.ContacstDealer)
                 .WithOne()
                 .HasForeignKey(dc => dc.DealerId)
                 .OnDelete(DeleteBehavior.Cascade);

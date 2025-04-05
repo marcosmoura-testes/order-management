@@ -20,7 +20,7 @@ namespace Application.UseCases
         public async Task<List<Dealer>> Execute(int page, int limit)
         {
             Expression<Func<Dealer, object>>[] includes = {
-                d => d.TeleContacstDealer,
+                d => d.ContacstDealer,
                 d => d.DealerDeliveryAddress
             };
             return _unitOfWork.DealerRepository.GetAllPaginado(page, limit, includes).ToList();
@@ -29,7 +29,7 @@ namespace Application.UseCases
         public async Task<Dealer> ExecuteById(int id)
         {
             Expression<Func<Dealer, object>>[] includes = {
-                d => d.TeleContacstDealer,
+                d => d.ContacstDealer,
                 d => d.DealerDeliveryAddress
             };
 

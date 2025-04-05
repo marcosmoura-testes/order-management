@@ -45,6 +45,7 @@ CREATE TABLE DealerContact (
     Name VARCHAR(100) NULL,
     PhoneNumber NVARCHAR(15) NULL,
     DealerId INT NOT NULL,
+    ContactDefault BIT NULL,
     FOREIGN KEY (DealerId) REFERENCES Dealer(Id) ON DELETE CASCADE
 );
 GO

@@ -16,7 +16,7 @@ namespace Application.UseCases
         public async Task<Dealer> Execute(Dealer dealer, int dealerId)
         {
             Expression<Func<Dealer, object>>[] includes = {
-                d => d.TeleContacstDealer,
+                d => d.ContacstDealer,
                 d => d.DealerDeliveryAddress
             };
 
@@ -31,9 +31,9 @@ namespace Application.UseCases
             existingDealer.NomeFantasia = dealer.NomeFantasia;
             existingDealer.Email = dealer.Email;
 
-            foreach (var contact in dealer.TeleContacstDealer)
+            foreach (var contact in dealer.ContacstDealer)
             {
-                var existingContact = existingDealer.TeleContacstDealer.FirstOrDefault(c => c.Id == contact.Id);
+                var existingContact = existingDealer.ContacstDealer.FirstOrDefault(c => c.Id == contact.Id);
                 if (existingContact != null)
                 {
                     existingContact.Name = contact.Name;
@@ -41,11 +41,11 @@ namespace Application.UseCases
                 }
                 else
                 {
-                    existingDealer.TeleContacstDealer.Add(contact);
+                    existingDealer.ContacstDealer.Add(contact);
                 }
             }
 
-            existingDealer.TeleContacstDealer.RemoveAll(c => !dealer.TeleContacstDealer.Any(dc => dc.Id == c.Id));
+            existingDealer.ContacstDealer.RemoveAll(c => !dealer.ContacstDealer.Any(dc => dc.Id == c.Id));
 
             foreach (var address in dealer.DealerDeliveryAddress)
             {

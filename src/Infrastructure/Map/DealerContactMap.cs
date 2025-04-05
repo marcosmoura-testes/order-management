@@ -24,8 +24,10 @@ namespace Infrastructure.Map
 
             builder.Property(d => d.DealerId);
 
+            builder.Property(d => d.ContactDefault);
+
             builder.HasOne<Dealer>()
-                .WithMany(d => d.TeleContacstDealer)
+                .WithMany(d => d.ContacstDealer)
                 .HasForeignKey(d => d.DealerId)
                 .OnDelete(DeleteBehavior.Cascade);
         }
