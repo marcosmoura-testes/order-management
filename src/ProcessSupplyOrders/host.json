@@ -1,0 +1,13 @@
+{
+    "version": "2.0",
+    "logging": {
+        "applicationInsights": {
+            "samplingSettings": {
+                "isEnabled": true,
+                "excludedTypes": "Request"
+            },
+            "enableLiveMetricsFilters": true
+        }
+    },
+    "supplierApiUrl": "https://db3d3c82-7525-4ce8-bde2-ac9d1b645cbc.mock.pstmn.io"
+}

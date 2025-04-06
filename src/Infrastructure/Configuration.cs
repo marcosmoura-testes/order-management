@@ -24,12 +24,6 @@ namespace Infrastructure
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();
 
-            services.AddHttpClient("SupplierApi", client =>
-            {
-                client.BaseAddress = new Uri(configuration["supplierApiUrl"]);
-                client.Timeout = TimeSpan.FromSeconds(10);
-            });
-
             services.AddScoped<ISupplierService, SupplierService>();
 
             return services;

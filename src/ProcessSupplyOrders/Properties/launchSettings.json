@@ -1,0 +1,9 @@
+{
+  "profiles": {
+    "ProcessSupplyOrders": {
+      "commandName": "Project",
+      "commandLineArgs": "--port 7218",
+      "launchBrowser": false
+    }
+  }
+}
