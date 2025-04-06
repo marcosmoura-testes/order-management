@@ -53,7 +53,6 @@ GO
 CREATE TABLE DealerContact (
     Id INT IDENTITY(1,1) PRIMARY KEY,
     Name VARCHAR(100) NULL,
-    PhoneNumber NVARCHAR(15) NULL,
     DealerId INT NOT NULL,
     ContactDefault BIT NULL,
     FOREIGN KEY (DealerId) REFERENCES Dealer(Id) ON DELETE CASCADE
@@ -112,7 +111,8 @@ GO
 
 INSERT INTO OrderStatus (Name) VALUES 
 ('Pendente'),         
-('Aprovado'),         
+('Aprovado'),   
+('Solicitado'),         
 ('Em separação'),     
 ('Enviado'),          
 ('Entregue'),         

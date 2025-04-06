@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Domain.Interfaces.Services.Supplier;
 using Domain.UoW;
+using Infrastructure.Services.Supplier;
 using Infrastructure.UoW;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -21,6 +23,14 @@ namespace Infrastructure
             );
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();
+
+            services.AddHttpClient("SupplierApi", client =>
+            {
+                client.BaseAddress = new Uri(configuration["supplierApiUrl"]);
+                client.Timeout = TimeSpan.FromSeconds(10);
+            });
+
+            services.AddScoped<ISupplierService, SupplierService>();
 
             return services;
         }

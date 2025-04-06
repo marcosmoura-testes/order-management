@@ -13,6 +13,10 @@ namespace Infrastructure.Repository
             _context = context;
         }
 
+        public async Task<List<Product>> GetByIds(int[] ids) => _context.Product
+                .Where(p => ids.Contains(p.Id))
+                .ToList();
+
         public async Task<Product> GetProductBySKU(string sku) => await _context.Product.FirstOrDefaultAsync(p => p.SKU == sku);
     }
 }

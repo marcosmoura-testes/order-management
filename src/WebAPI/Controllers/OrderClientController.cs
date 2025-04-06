@@ -9,16 +9,24 @@ namespace WebAPI.Controllers
     public class OrderClientController : Controller
     {
         private readonly ISendOrderUseCase _sendOrderUseCase;
+        private readonly IRequestOrderUseCase _requestOrderUseCase;
 
-        public OrderClientController(ISendOrderUseCase sendOrderUseCase)
+        public OrderClientController(ISendOrderUseCase sendOrderUseCase, IRequestOrderUseCase requestOrderUseCase)
         {
             _sendOrderUseCase = sendOrderUseCase;
+            _requestOrderUseCase = requestOrderUseCase;
         }
 
-        [HttpPost]
-        public async Task<IActionResult> Post([FromBody] ClientOrderDTO clientOrderDTO)
+        [HttpPost("/SendOrder")]
+        public async Task<IActionResult> SendOrder([FromBody] ClientOrderDTO clientOrderDTO)
         {
             return Ok(await _sendOrderUseCase.Execute(clientOrderDTO));
+        }
+
+        [HttpPost("/ResquestOrder")]
+        public async Task<IActionResult> ResquestOrder([FromBody] RequestOrderDTO requestOrderDTO)
+        {
+            return Ok(await _requestOrderUseCase.Execute(requestOrderDTO));
         }
     }
 }

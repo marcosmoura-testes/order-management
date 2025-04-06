@@ -21,6 +21,7 @@ builder.Services.AddScoped<IReadDealer, ReadDealerUseCase>();
 builder.Services.AddScoped<IUpdateDealer, UpdateDealerUseCase>();
 builder.Services.AddScoped<IDeleteDealer, DeleteDealerUseCase>();
 builder.Services.AddScoped<ISendOrderUseCase, SendOrderUseCase>();
+builder.Services.AddScoped<IRequestOrderUseCase, RequestOrderUseCase>();
 
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
