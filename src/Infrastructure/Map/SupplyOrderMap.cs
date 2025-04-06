@@ -13,7 +13,7 @@ namespace Infrastructure.Map
     {
         public void Configure(EntityTypeBuilder<SupplyOrder> builder)
         {
-            builder.ToTable("SupplyOrders");
+            builder.ToTable("SupplyOrder");
 
             builder.HasKey(so => so.Id);
 

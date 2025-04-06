@@ -1,4 +1,5 @@
-﻿using Application.Interfaces;
+﻿using Application.CustomException;
+using Application.Interfaces;
 using Domain.DTO;
 using Domain.Entity;
 using Domain.Interfaces.Services.Supplier;
@@ -19,6 +20,11 @@ namespace Application.UseCases
 
         public async Task<SupplierOrderResponseDTO> Execute(RequestOrderDTO requestOrderDTO)
         {
+            if(_unitOfWork.SupplyOrderRepository.GetAllByDealerIdStatusId(requestOrderDTO.DealerId, (int)OrderStatusEnum.Enviado).Count > 0)
+            {
+                throw new BadRequestCustomException("Order already sent");
+            }
+
             Dealer dealer = _unitOfWork.DealerRepository.GetById(requestOrderDTO.DealerId);
             if (dealer == null)
             {
@@ -52,6 +58,20 @@ namespace Application.UseCases
                         });
                     }
                 }
+
+                SupplyOrder supplyOrder = new SupplyOrder
+                {
+                    DealerId = dealer.Id,
+                    CreatedAt = DateTime.Now,
+                    StatusId = (int)OrderStatusEnum.Enviado,
+                    TotalAmount = totalAmount,
+                    SupplyOrderClientOrders = clientOrders.Select(co => new SupplyOrderClientOrder
+                    {
+                        ClientOrderId = co.Id,
+                    }).ToList()
+                };
+
+                _unitOfWork.SupplyOrderRepository.Save(supplyOrder);   
 
                 SupplierOrderRequestDTO supplierOrderRequestDTO = new SupplierOrderRequestDTO
                 {

@@ -12,6 +12,7 @@ namespace Domain.Entity
         public int DealerId { get; set; }
         public DateTime CreatedAt { get; set; }
         public decimal TotalAmount { get; set; }
+        public int StatusId { get; set; }
         public List<SupplyOrderClientOrder> SupplyOrderClientOrders { get; set; } = new List<SupplyOrderClientOrder>();
     }
 }

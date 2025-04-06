@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Domain.Entity;
 using Domain.Interfaces.Repository;
+using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Repository
 {
@@ -15,6 +16,14 @@ namespace Infrastructure.Repository
         public SupplyOrderRepository(DefaultDbContext context) : base(context)
         {
             _context = context;
+        }
+
+        public List<SupplyOrder> GetAllByDealerIdStatusId(int dealerId, int statusId)
+        {
+            return _context.SupplyOrder
+                 .Include(co => co.SupplyOrderClientOrders)
+                 .Where(co => co.DealerId == dealerId && co.StatusId == statusId)
+                 .ToList();
         }
     }
 }
