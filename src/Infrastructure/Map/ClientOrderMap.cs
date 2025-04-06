@@ -8,7 +8,7 @@ namespace Infrastructure.Map
     {
         public void Configure(EntityTypeBuilder<ClientOrder> builder)
         {
-            builder.ToTable("ClientOrders");
+            builder.ToTable("ClientOrder");
 
             builder.HasKey(co => co.Id);
 
@@ -30,6 +30,7 @@ namespace Infrastructure.Map
             builder.HasMany(co => co.CLientOrderProducts)
                    .WithOne()
                    .HasForeignKey(p => p.ClientOrderId);
+
 
         }
     }

@@ -42,7 +42,7 @@ namespace WebAPI.Controllers
         [HttpPut("/{{id}}")]
         public async Task<IActionResult> Put(int id, [FromBody] Dealer dealer)
         {
-            return Ok(await _updateDealer.Execute(dealer,id));
+            return Ok(await _updateDealer.Execute(dealer, id));
         }
 
         [HttpDelete("/{{id}}")]

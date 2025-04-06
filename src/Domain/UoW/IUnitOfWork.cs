@@ -7,5 +7,6 @@ namespace Domain.UoW
         IDealerRepository DealerRepository { get; }
         IClientOrderRepository ClientOrderRepository { get; }
         IProductRepository ProductRepository { get; }
+        ISupplyOrderRepository SupplyOrderRepository { get; }
     }
 }

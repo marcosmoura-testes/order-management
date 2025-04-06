@@ -4,11 +4,11 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Infrastructure.Map
 {
-    public class CLientOrderProductMap : IEntityTypeConfiguration<ClientOrderProduct>
+    public class ClientOrderProductMap : IEntityTypeConfiguration<ClientOrderProduct>
     {
         public void Configure(EntityTypeBuilder<ClientOrderProduct> builder)
         {
-            builder.ToTable("ClientOrderProducts");
+            builder.ToTable("ClientOrderProduct");
 
             builder.HasKey(c => c.Id);
 
@@ -31,14 +31,6 @@ namespace Infrastructure.Map
             builder.Property(c => c.TotalAmount)
                 .HasColumnType("decimal(18,2)")
                 .IsRequired();
-
-            builder.HasOne<ClientOrder>()
-                .WithMany()
-                .HasForeignKey(c => c.ClientOrderId);
-
-            builder.HasOne<Product>()
-                .WithMany()
-                .HasForeignKey(c => c.ProductId);
         }
     }
 }

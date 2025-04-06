@@ -11,9 +11,7 @@ namespace Infrastructure.Map
             builder.ToTable("ProductCategory");
 
             builder.HasKey(pc => pc.Id);
-            builder.Property(pc => pc.Name)
-                   .IsRequired()
-                   .HasMaxLength(100);
+            builder.Property(pc => pc.Name).IsRequired().HasMaxLength(100);
         }
     }
 }

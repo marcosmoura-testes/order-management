@@ -109,6 +109,27 @@ CREATE TABLE ClientOrderProduct (
 );
 GO
 
+-- Pedidos de Fornecedores
+CREATE TABLE SupplyOrder (
+    Id INT IDENTITY(1,1) PRIMARY KEY,
+    CreatedAt DATETIME NOT NULL DEFAULT GETDATE(),
+    DealerId INT NOT NULL,
+    StatusId INT NOT NULL,
+    TotalAmount DECIMAL(18,2)  NULL,
+    FOREIGN KEY (DealerId) REFERENCES Dealer(Id),
+    FOREIGN KEY (StatusId) REFERENCES OrderStatus(Id)
+);
+GO
+
+CREATE TABLE SupplyOrderClientOrder (
+    Id INT IDENTITY(1,1) PRIMARY KEY,
+    SupplyOrderId INT NOT NULL,
+    ClientOrderId INT NOT NULL,
+    FOREIGN KEY (ClientOrderId) REFERENCES ClientOrder(Id),
+    FOREIGN KEY (SupplyOrderId) REFERENCES SupplyOrder(Id)
+);
+GO
+
 INSERT INTO OrderStatus (Name) VALUES 
 ('Pendente'),         
 ('Aprovado'),   

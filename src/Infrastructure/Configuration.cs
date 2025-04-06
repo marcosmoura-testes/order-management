@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Azure.Messaging.ServiceBus;
 using Domain.Interfaces.Services.Supplier;
 using Domain.UoW;
 using Infrastructure.Services.Supplier;
@@ -25,6 +21,9 @@ namespace Infrastructure
             services.AddScoped<IUnitOfWork, UnitOfWork>();
 
             services.AddScoped<ISupplierService, SupplierService>();
+
+            var serviceBusConnectionString = configuration["ServiceBus:ConnectionString"];
+            services.AddSingleton<ServiceBusClient>(new ServiceBusClient(serviceBusConnectionString));
 
             return services;
         }

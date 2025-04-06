@@ -1,10 +1,9 @@
 ﻿using Domain.Entity;
 using Domain.Interfaces.Repository;
-using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Repository
 {
-    public class DealerRepository : BaseRepository<Dealer, int>,IDealerRepository
+    public class DealerRepository : BaseRepository<Dealer, int>, IDealerRepository
     {
         private readonly DefaultDbContext _context;
 
@@ -15,7 +14,7 @@ namespace Infrastructure.Repository
 
         public bool CNPJExists(string cnpj)
         {
-           return _context.Dealer.Any(d => d.CNPJ == cnpj);
+            return _context.Dealer.Any(d => d.CNPJ == cnpj);
         }
 
         public Dealer GetByCNPJ(string cnpj)

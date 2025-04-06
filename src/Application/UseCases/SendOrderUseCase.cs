@@ -18,12 +18,12 @@ namespace Application.UseCases
         {
             try
             {
-                Dealer dealer =  _unitOfWork.DealerRepository.GetByCNPJ(orderDTO.DealerCNPJ);
-                
+                Dealer dealer = _unitOfWork.DealerRepository.GetByCNPJ(orderDTO.DealerCNPJ);
+
                 if (dealer == null)
                     throw new Exception("Revendedor não encontrado");
 
-                if(orderDTO.ClientOrderProducts == null || orderDTO.ClientOrderProducts.Count == 0)
+                if (orderDTO.ClientOrderProducts == null || orderDTO.ClientOrderProducts.Count == 0)
                     throw new BadRequestCustomException("Não foram enviados os produtos");
 
                 ClientOrder clientOrder = new ClientOrder();
@@ -32,7 +32,6 @@ namespace Application.UseCases
                 clientOrder.ClientCNPJ = orderDTO.ClientCNPJ;
                 clientOrder.DealerId = dealer.Id;
                 clientOrder.StatusId = 1;
-
 
                 foreach (var produto in orderDTO.ClientOrderProducts)
                 {
@@ -51,11 +50,18 @@ namespace Application.UseCases
 
                 clientOrder.TotalAmount = clientOrder.CLientOrderProducts.Sum(x => x.TotalAmount);
 
+                var validator = new ClientOrderValidator();
+                var validationResult = validator.Validate(clientOrder);
+                if (!validationResult.IsValid)
+                {
+                    throw new ValidationCustomException(string.Join(", ", validationResult.Errors.Select(e => e.ErrorMessage)));
+                }
+
                 return _unitOfWork.ClientOrderRepository.Save(clientOrder);
             }
             catch (Exception ex)
             {
-                throw new Exception("Erro ao enviar pedido", ex);
+                return null;
             }
         }
     }

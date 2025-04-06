@@ -4,6 +4,6 @@ namespace Domain.Interfaces.Services.Supplier
 {
     public interface ISupplierService
     {
-        Task<SupplierOrderResponseDTO> SendOrder(SupplierOrderRequestDTO supplierOrderRequestDTO);
+        Task SendOrder(SupplierOrderRequestDTO supplierOrderRequestDTO);
     }
 }

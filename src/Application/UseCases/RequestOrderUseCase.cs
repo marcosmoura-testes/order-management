@@ -37,7 +37,7 @@ namespace Application.UseCases
                     throw new Exception("Dealer not found");
                 }
 
-                List<SupplierOrderItensDTO> supplierOrderItens = new List<SupplierOrderItensDTO>(); 
+                List<SupplierOrderItensDTO> supplierOrderItens = new List<SupplierOrderItensDTO>();
                 foreach (var order in clientOrders)
                 {
                     List<Product> products = await _unitOfWork.ProductRepository.GetByIds(order.CLientOrderProducts.Select(p => p.ProductId).ToArray());
@@ -53,15 +53,19 @@ namespace Application.UseCases
                     }
                 }
 
-                
-
                 SupplierOrderRequestDTO supplierOrderRequestDTO = new SupplierOrderRequestDTO
                 {
                     DealerCnpj = dealer.CNPJ,
                     SupplierOrderItens = supplierOrderItens
                 };
 
-                return await _supplierService.SendOrder(supplierOrderRequestDTO);
+                await _supplierService.SendOrder(supplierOrderRequestDTO);
+
+                return new SupplierOrderResponseDTO
+                {
+                    TotalAmount = totalAmount,
+                    SupplierOrderItens = supplierOrderItens
+                };
             }
             return null;
         }

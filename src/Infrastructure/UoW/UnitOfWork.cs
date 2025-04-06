@@ -16,6 +16,7 @@ namespace Infrastructure.UoW
         private IDealerRepository _dealerRepository;
         private IClientOrderRepository _clientOrderRepository;
         private IProductRepository _productRepository;
+        private ISupplyOrderRepository _supplyOrderRepository;
 
         public IDealerRepository DealerRepository
         {
@@ -29,6 +30,7 @@ namespace Infrastructure.UoW
                 return _dealerRepository;
             }
         }
+
         public IClientOrderRepository ClientOrderRepository
         {
             get
@@ -40,6 +42,7 @@ namespace Infrastructure.UoW
                 return _clientOrderRepository;
             }
         }
+
         public IProductRepository ProductRepository
         {
             get
@@ -49,6 +52,17 @@ namespace Infrastructure.UoW
                     _productRepository = new ProductRepository(_context);
                 }
                 return _productRepository;
+            }
+        }
+        public ISupplyOrderRepository SupplyOrderRepository
+        {
+            get
+            {
+                if (_supplyOrderRepository == null)
+                {
+                    _supplyOrderRepository = new SupplyOrderRepository(_context);
+                }
+                return _supplyOrderRepository;
             }
         }
     }

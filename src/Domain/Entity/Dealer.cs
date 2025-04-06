@@ -10,10 +10,10 @@ namespace Domain.Entity
         public string CNPJ { get; set; }
         public string RazaoSocial { get; set; }
         public string NomeFantasia { get; set; }
-        
+
         public string Email { get; set; }
         public List<DealerPhone> PhonesDealer { get; set; } = new List<DealerPhone>();
-        public List<DealerContact> ContacstDealer{ get; set; } = new List<DealerContact>();   
+        public List<DealerContact> ContacstDealer { get; set; } = new List<DealerContact>();
         public List<DealerDeliveryAddress> DealerDeliveryAddress { get; set; } = new List<DealerDeliveryAddress>();
     }
 
@@ -39,11 +39,11 @@ namespace Domain.Entity
 
             RuleFor(dealer => dealer.ContacstDealer)
                 .NotNull().WithMessage("ContacstDealer is required")
-                .Must(contacts => contacts.Count > 0).WithMessage("ContacstDealer must have at least one contact");
+                .Must(contacts => contacts != null && contacts.Count > 0).WithMessage("ContacstDealer must have at least one contact");
 
             RuleFor(dealer => dealer.DealerDeliveryAddress)
                 .NotNull().WithMessage("DealerDeliveryAddress is required")
-                .Must(addresses => addresses.Count > 0).WithMessage("DealerDeliveryAddress must have at least one address");
+                .Must(addresses => addresses != null && addresses.Count > 0).WithMessage("DealerDeliveryAddress must have at least one address");
 
         }
 
@@ -55,7 +55,7 @@ namespace Domain.Entity
             if (razaoSocial.Length < 5)
                 return false;
 
-            if (!Regex.IsMatch(razaoSocial, @"^[a-zA-Z0-9\s]+$"))
+            if (!Regex.IsMatch(razaoSocial, @"^[\p{L}0-9\s]+$"))
                 return false;
 
             return true;

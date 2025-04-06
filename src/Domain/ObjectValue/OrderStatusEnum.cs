@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Domain.ObjectValue
 {
@@ -28,6 +23,6 @@ namespace Domain.ObjectValue
         Entregue,
 
         [Display(Name = "Cancelado")]
-        Cancelado 
+        Cancelado
     }
 }

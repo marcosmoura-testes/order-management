@@ -40,7 +40,7 @@ namespace ProcessSupplyOrders
             _logger.LogInformation("Message Content-Type: {contentType}", message.ContentType);
 
             SupplierOrderRequestDTO supplierOrderRequestDTO = JsonSerializer.Deserialize<SupplierOrderRequestDTO>(message.Body);
-            var requestUrl = "/orders";
+            var requestUrl = "/order";
             var response = await _retryPolicy.ExecuteAsync(() => _httpClient.PostAsJsonAsync(requestUrl, supplierOrderRequestDTO));
             if (response.IsSuccessStatusCode)
             {
