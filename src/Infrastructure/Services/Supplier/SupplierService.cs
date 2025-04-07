@@ -33,7 +33,7 @@ namespace Infrastructure.Services.Supplier
                 .WaitAndRetryAsync(5, attempt => TimeSpan.FromSeconds(Math.Pow(2, attempt)),
                     (exception, timespan, retryCount, context) =>
                     {
-                        _logger.LogWarning($"Tentativa {retryCount} falhou. Retentando em {timespan.TotalSeconds}s...");
+                        _logger.LogWarning($"falure {retryCount} to try. retry in {timespan.TotalSeconds}s...");
                     });
         }
 

@@ -13,7 +13,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application", "src\Applicat
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{AB1CCE4F-6EAD-4BC1-9DAA-CB5F4C14ED75}"
 	ProjectSection(SolutionItems) = preProject
-		Cria e Carrega Banco.sql = Cria e Carrega Banco.sql
 		docker-compose.yml = docker-compose.yml
 		README.md = README.md
 	EndProjectSection
