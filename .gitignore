@@ -11,3 +11,5 @@
 /src/Domain/obj
 /src/Infrastructure/bin/
 /src/Infrastructure/obj
+/tests/OrderManagement.Tests/bin/
+/tests/OrderManagement.Tests/obj
