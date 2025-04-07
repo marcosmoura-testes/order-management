@@ -11,22 +11,11 @@ namespace Infrastructure.Map
             builder.ToTable("DealerContact");
 
             builder.HasKey(d => d.Id);
-
-            builder.Property(d => d.Id)
-                .ValueGeneratedOnAdd();
-
-            builder.Property(d => d.Name)
-                .IsRequired()
-                .HasMaxLength(100);
-
+            builder.Property(d => d.Id).ValueGeneratedOnAdd();
+            builder.Property(d => d.Name).IsRequired().HasMaxLength(100);
             builder.Property(d => d.DealerId);
-
             builder.Property(d => d.ContactDefault);
-
-            builder.HasOne<Dealer>()
-                .WithMany(d => d.ContacstDealer)
-                .HasForeignKey(d => d.DealerId)
-                .OnDelete(DeleteBehavior.Cascade);
+            builder.HasOne<Dealer>().WithMany(d => d.ContacstDealer).HasForeignKey(d => d.DealerId).OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

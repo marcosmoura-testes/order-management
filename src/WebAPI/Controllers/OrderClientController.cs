@@ -1,6 +1,7 @@
 ﻿using Application.Interfaces;
 using Domain.DTO;
 using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace WebAPI.Controllers
 {
@@ -17,16 +18,18 @@ namespace WebAPI.Controllers
             _requestOrderUseCase = requestOrderUseCase;
         }
 
+        /// <summary>
+        /// Sends a client order.
+        /// </summary>
+        /// <param name="clientOrderDTO">The client order details.</param>
+        /// <returns>The result of the send operation.</returns>
         [HttpPost("/SendOrder")]
+        [SwaggerOperation(Summary = "Sends a client order", Description = "Executes the process of sending a client order.")]
+        [SwaggerResponse(200, "The client order was sent successfully.")]
+        [SwaggerResponse(400, "The client order details are invalid.")]
         public async Task<IActionResult> SendOrder([FromBody] ClientOrderDTO clientOrderDTO)
         {
             return Ok(await _sendOrderUseCase.Execute(clientOrderDTO));
-        }
-
-        [HttpPost("/ResquestOrder")]
-        public async Task<IActionResult> ResquestOrder([FromBody] RequestOrderDTO requestOrderDTO)
-        {
-            return Ok(await _requestOrderUseCase.Execute(requestOrderDTO));
         }
     }
 }

@@ -2,10 +2,24 @@
 
 namespace Domain.Entity
 {
+    /// <summary>
+    /// Represents a phone number associated with a dealer.
+    /// </summary>
     public class DealerPhone
     {
+        /// <summary>
+        /// The unique identifier for the dealer phone.
+        /// </summary>
         public int Id { get; set; }
+
+        /// <summary>
+        /// The unique identifier for the dealer.
+        /// </summary>
         public int DealerId { get; set; }
+
+        /// <summary>
+        /// The phone number of the dealer.
+        /// </summary>
         public string PhoneNumber { get; set; }
     }
 

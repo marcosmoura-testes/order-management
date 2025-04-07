@@ -3,17 +3,54 @@ using FluentValidation;
 
 namespace Domain.Entity
 {
+    /// <summary>
+    /// Represents a dealer entity.
+    /// </summary>
     public class Dealer
     {
+        /// <summary>
+        /// The unique identifier for the dealer.
+        /// </summary>
         public int Id { get; set; }
+
+        /// <summary>
+        /// The name of the dealer.
+        /// </summary>
         public string Name { get; set; }
+
+        /// <summary>
+        /// The CNPJ of the dealer.
+        /// </summary>
         public string CNPJ { get; set; }
+
+        /// <summary>
+        /// The Razao Social of the dealer.
+        /// </summary>
         public string RazaoSocial { get; set; }
+
+        /// <summary>
+        /// The Nome Fantasia of the dealer.
+        /// </summary>
         public string NomeFantasia { get; set; }
 
+        /// <summary>
+        /// The email address of the dealer.
+        /// </summary>
         public string Email { get; set; }
+
+        /// <summary>
+        /// The list of phone numbers associated with the dealer.
+        /// </summary>
         public List<DealerPhone> PhonesDealer { get; set; } = new List<DealerPhone>();
+
+        /// <summary>
+        /// The list of contacts associated with the dealer.
+        /// </summary>
         public List<DealerContact> ContacstDealer { get; set; } = new List<DealerContact>();
+
+        /// <summary>
+        /// The list of delivery addresses associated with the dealer.
+        /// </summary>
         public List<DealerDeliveryAddress> DealerDeliveryAddress { get; set; } = new List<DealerDeliveryAddress>();
     }
 

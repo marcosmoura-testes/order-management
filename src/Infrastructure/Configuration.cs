@@ -13,10 +13,7 @@ namespace Infrastructure
     {
         public static IServiceCollection AddInfraDataSetup(this IServiceCollection services, IConfiguration configuration)
         {
-            var connection = configuration["ConexaoMySql:MySqlConnectionString"];
-            services.AddDbContext<DefaultDbContext>(options =>
-                 options.UseSqlServer(connection)
-            );
+            services.AddDbContext<DefaultDbContext>();
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();
 

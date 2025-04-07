@@ -12,11 +12,8 @@ namespace Infrastructure.Map
 
             builder.HasKey(soco => soco.Id);
 
-            builder.Property(soco => soco.SupplyOrderId)
-                   .IsRequired();
-
-            builder.Property(soco => soco.ClientOrderId)
-                   .IsRequired();
+            builder.Property(soco => soco.SupplyOrderId).IsRequired();
+            builder.Property(soco => soco.ClientOrderId).IsRequired();
 
         }
     }

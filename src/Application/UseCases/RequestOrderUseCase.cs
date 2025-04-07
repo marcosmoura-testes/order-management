@@ -1,93 +1,107 @@
-﻿using Application.CustomException;
-using Application.Interfaces;
+﻿using Application.Interfaces;
 using Domain.DTO;
 using Domain.Entity;
 using Domain.Interfaces.Services.Supplier;
 using Domain.ObjectValue;
 using Domain.UoW;
+using Microsoft.Extensions.Logging;
 
 namespace Application.UseCases
 {
+    /// <summary>
+    /// Use case for requesting orders from suppliers.
+    /// </summary>
     public class RequestOrderUseCase : IRequestOrderUseCase
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly ISupplierService _supplierService;
-        public RequestOrderUseCase(IUnitOfWork unitOfWork, ISupplierService supplierService)
+        private readonly ILogger<RequestOrderUseCase> _logger;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="RequestOrderUseCase"/> class.
+        /// </summary>
+        /// <param name="unitOfWork">The unit of work.</param>
+        /// <param name="supplierService">The supplier service.</param>
+        /// <param name="logger">The logger.</param>
+        public RequestOrderUseCase(IUnitOfWork unitOfWork, ISupplierService supplierService, ILogger<RequestOrderUseCase> logger)
         {
             _unitOfWork = unitOfWork;
             _supplierService = supplierService;
+            _logger = logger;
         }
 
-        public async Task<SupplierOrderResponseDTO> Execute(RequestOrderDTO requestOrderDTO)
+        /// <summary>
+        /// Executes the use case.
+        /// </summary>
+        public async Task Execute()
         {
-            if(_unitOfWork.SupplyOrderRepository.GetAllByDealerIdStatusId(requestOrderDTO.DealerId, (int)OrderStatusEnum.Enviado).Count > 0)
+            _logger.LogInformation("Starting execution of RequestOrderUseCase.");
+
+            List<Dealer> dealers = _unitOfWork.DealerRepository.GetAll(null).ToList();
+            _logger.LogInformation("Retrieved {DealerCount} dealers.", dealers.Count);
+
+            foreach (var dealer in dealers)
             {
-                throw new BadRequestCustomException("Order already sent");
-            }
+                _logger.LogInformation("Processing dealer with ID {DealerId}.", dealer.Id);
 
-            Dealer dealer = _unitOfWork.DealerRepository.GetById(requestOrderDTO.DealerId);
-            if (dealer == null)
-            {
-                throw new Exception("Dealer not found");
-            }
+                List<ClientOrder> clientOrders = _unitOfWork.ClientOrderRepository.GetAllByDealerIdStatusId(dealer.Id, (int)OrderStatusEnum.Pendente);
+                _logger.LogInformation("Retrieved {ClientOrderCount} client orders for dealer ID {DealerId}.", clientOrders.Count, dealer.Id);
 
-            List<ClientOrder> clientOrders = _unitOfWork.ClientOrderRepository.GetAllByDealerIdStatusId(dealer.Id, (int)OrderStatusEnum.Pendente);
-
-
-            if (clientOrders.Count > 0)
-            {
-                var totalAmount = clientOrders.Select(c => c.CLientOrderProducts.Sum(c => c.TotalAmount)).Sum();
-
-                if (totalAmount < 1000)
+                if (clientOrders.Count > 0)
                 {
-                    throw new Exception("Dealer not found");
-                }
+                    var totalAmount = clientOrders.Select(c => c.CLientOrderProducts.Sum(c => c.TotalAmount)).Sum();
+                    _logger.LogInformation("Total amount for dealer ID {DealerId} is {TotalAmount}.", dealer.Id, totalAmount);
 
-                List<SupplierOrderItensDTO> supplierOrderItens = new List<SupplierOrderItensDTO>();
-                foreach (var order in clientOrders)
-                {
-                    List<Product> products = await _unitOfWork.ProductRepository.GetByIds(order.CLientOrderProducts.Select(p => p.ProductId).ToArray());
-
-                    foreach (var product in order.CLientOrderProducts)
+                    if (totalAmount < 1000)
                     {
-                        supplierOrderItens.Add(new SupplierOrderItensDTO
-                        {
-                            SKU = products.Select(prd => prd.SKU).FirstOrDefault(),
-                            Quantity = product.Quantity,
-                            TotalAmount = product.TotalAmount
-                        });
+                        _logger.LogWarning("Total amount for dealer ID {DealerId} is less than 1000. Skipping supplier order.", dealer.Id);
+                        continue;
                     }
-                }
 
-                SupplyOrder supplyOrder = new SupplyOrder
-                {
-                    DealerId = dealer.Id,
-                    CreatedAt = DateTime.Now,
-                    StatusId = (int)OrderStatusEnum.Enviado,
-                    TotalAmount = totalAmount,
-                    SupplyOrderClientOrders = clientOrders.Select(co => new SupplyOrderClientOrder
+                    List<SupplierOrderItensDTO> supplierOrderItens = new List<SupplierOrderItensDTO>();
+                    foreach (var order in clientOrders)
                     {
-                        ClientOrderId = co.Id,
-                    }).ToList()
-                };
+                        List<Product> products = await _unitOfWork.ProductRepository.GetByIds(order.CLientOrderProducts.Select(p => p.ProductId).ToArray());
 
-                _unitOfWork.SupplyOrderRepository.Save(supplyOrder);   
+                        foreach (var product in order.CLientOrderProducts)
+                        {
+                            supplierOrderItens.Add(new SupplierOrderItensDTO
+                            {
+                                SKU = products.Select(prd => prd.SKU).FirstOrDefault(),
+                                Quantity = product.Quantity,
+                                TotalAmount = product.TotalAmount
+                            });
+                        }
+                    }
 
-                SupplierOrderRequestDTO supplierOrderRequestDTO = new SupplierOrderRequestDTO
-                {
-                    DealerCnpj = dealer.CNPJ,
-                    SupplierOrderItens = supplierOrderItens
-                };
+                    SupplyOrder supplyOrder = new SupplyOrder
+                    {
+                        DealerId = dealer.Id,
+                        CreatedAt = DateTime.Now,
+                        StatusId = (int)OrderStatusEnum.Enviado,
+                        TotalAmount = totalAmount,
+                        SupplyOrderClientOrders = clientOrders.Select(co => new SupplyOrderClientOrder
+                        {
+                            ClientOrderId = co.Id,
+                        }).ToList()
+                    };
 
-                await _supplierService.SendOrder(supplierOrderRequestDTO);
+                    _unitOfWork.SupplyOrderRepository.Save(supplyOrder);
+                    _logger.LogInformation("Saved supply order for dealer ID {DealerId}.", dealer.Id);
 
-                return new SupplierOrderResponseDTO
-                {
-                    TotalAmount = totalAmount,
-                    SupplierOrderItens = supplierOrderItens
-                };
+                    SupplierOrderRequestDTO supplierOrderRequestDTO = new SupplierOrderRequestDTO
+                    {
+                        DealerCnpj = dealer.CNPJ,
+                        InternalReference = supplyOrder.Id,
+                        SupplierOrderItens = supplierOrderItens
+                    };
+
+                    await _supplierService.SendOrder(supplierOrderRequestDTO);
+                    _logger.LogInformation("Sent supplier order for dealer ID {DealerId}.", dealer.Id);
+                }
             }
-            return null;
+
+            _logger.LogInformation("Finished execution of RequestOrderUseCase.");
         }
     }
 }

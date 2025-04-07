@@ -1,7 +1,12 @@
+using System.Linq.Expressions;
 using System.Net.Http.Json;
 using System.Text.Json;
 using Azure.Messaging.ServiceBus;
 using Domain.DTO;
+using Domain.Entity;
+using Domain.ObjectValue;
+using Domain.UoW;
+using Infrastructure.UoW;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Extensions.Logging;
 using Polly;
@@ -14,11 +19,13 @@ namespace ProcessSupplyOrders
         private readonly HttpClient _httpClient;
         private readonly ILogger<Function1> _logger;
         private readonly AsyncRetryPolicy<HttpResponseMessage> _retryPolicy;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public Function1(IHttpClientFactory httpClientFactory, ILogger<Function1> logger)
+        public Function1(IHttpClientFactory httpClientFactory, ILogger<Function1> logger, IUnitOfWork unitOfWork)
         {
             _httpClient = httpClientFactory.CreateClient("SupplierApi");
             _logger = logger;
+            _unitOfWork = unitOfWork;
 
             _retryPolicy = Policy
                 .HandleResult<HttpResponseMessage>(r => !r.IsSuccessStatusCode)
@@ -45,7 +52,18 @@ namespace ProcessSupplyOrders
             if (response.IsSuccessStatusCode)
             {
                 var responseOrder = await response.Content.ReadAsStringAsync();
+                SupplierOrderResponseDTO supplierOrderResponseDTO = JsonSerializer.Deserialize<SupplierOrderResponseDTO>(responseOrder);
 
+                SupplyOrder supplyOrder = _unitOfWork.SupplyOrderRepository.GetById(supplierOrderRequestDTO.InternalReference);
+
+                if (supplyOrder != null)
+                {
+                    supplyOrder.StatusId = (int)OrderStatusEnum.EmSeparacao;
+                    supplyOrder.TotalAmount = supplierOrderResponseDTO.TotalAmount;
+                    supplyOrder.SupplyOrderId = supplierOrderResponseDTO.OrderId;
+
+                    _unitOfWork.SupplyOrderRepository.Update(supplyOrder);                    
+                }
                 await messageActions.CompleteMessageAsync(message);
             }
         }

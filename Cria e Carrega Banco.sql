@@ -114,6 +114,7 @@ CREATE TABLE SupplyOrder (
     Id INT IDENTITY(1,1) PRIMARY KEY,
     CreatedAt DATETIME NOT NULL DEFAULT GETDATE(),
     DealerId INT NOT NULL,
+    SupplyOrderId INT NULL,
     StatusId INT NOT NULL,
     TotalAmount DECIMAL(18,2)  NULL,
     FOREIGN KEY (DealerId) REFERENCES Dealer(Id),

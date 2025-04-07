@@ -11,9 +11,7 @@ namespace Infrastructure.Map
             builder.ToTable("OrderStatus");
 
             builder.HasKey(os => os.Id);
-            builder.Property(os => os.Name)
-                   .IsRequired()
-                   .HasMaxLength(100);
+            builder.Property(os => os.Name).IsRequired().HasMaxLength(100);
 
         }
     }

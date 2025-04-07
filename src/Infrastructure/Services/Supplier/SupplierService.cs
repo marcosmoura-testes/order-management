@@ -1,5 +1,4 @@
-﻿using System.Net.Http.Json;
-using System.Text.Json;
+﻿using System.Text.Json;
 using Azure.Messaging.ServiceBus;
 using Domain.DTO;
 using Domain.Interfaces.Services.Supplier;
@@ -9,6 +8,9 @@ using Polly.Retry;
 
 namespace Infrastructure.Services.Supplier
 {
+    /// <summary>
+    /// Service for handling supplier operations.
+    /// </summary>
     public class SupplierService : ISupplierService
     {
         private readonly ServiceBusClient _serviceBusClient;
@@ -16,6 +18,11 @@ namespace Infrastructure.Services.Supplier
         private readonly AsyncRetryPolicy _retryPolicy;
         private readonly string _queueName = "supply-orders";
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SupplierService"/> class.
+        /// </summary>
+        /// <param name="serviceBusClient">The Service Bus client.</param>
+        /// <param name="logger">The logger instance.</param>
         public SupplierService(ServiceBusClient serviceBusClient, ILogger<SupplierService> logger)
         {
             _serviceBusClient = serviceBusClient;
@@ -30,6 +37,11 @@ namespace Infrastructure.Services.Supplier
                     });
         }
 
+        /// <summary>
+        /// Sends an order to the supplier.
+        /// </summary>
+        /// <param name="supplierOrderRequestDTO">The supplier order request data transfer object.</param>
+        /// <returns>A task that represents the asynchronous operation.</returns>
         public async Task SendOrder(SupplierOrderRequestDTO supplierOrderRequestDTO)
         {
             var messageBody = JsonSerializer.Serialize(supplierOrderRequestDTO);

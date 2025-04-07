@@ -1,3 +1,4 @@
+using System.Reflection;
 using Application.Interfaces;
 using Application.UseCases;
 using Domain.UoW;
@@ -7,8 +8,6 @@ using Microsoft.OpenApi.Models;
 using WebAPI;
 
 var builder = WebApplication.CreateBuilder(args);
-
-// Add services to the container.
 
 var Configuration = builder.Configuration;
 
@@ -21,31 +20,25 @@ builder.Services.AddScoped<IReadDealer, ReadDealerUseCase>();
 builder.Services.AddScoped<IUpdateDealer, UpdateDealerUseCase>();
 builder.Services.AddScoped<IDeleteDealer, DeleteDealerUseCase>();
 builder.Services.AddScoped<ISendOrderUseCase, SendOrderUseCase>();
-builder.Services.AddScoped<IRequestOrderUseCase, RequestOrderUseCase>();
 
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
-// Configure Swagger
 builder.Services.AddSwaggerGen(c =>
 {
-    c.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" });
+    c.SwaggerDoc("v1", new OpenApiInfo { Title = "Managerment Dealer Order", Version = "v1" });
+    c.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, $"{Assembly.GetExecutingAssembly().GetName().Name}.xml"));
 });
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-
 app.UseAuthorization();
 
-// Enable middleware to serve generated Swagger as a JSON endpoint.
 app.UseSwagger();
 
-// Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.),
-// specifying the Swagger JSON endpoint.
 app.UseSwaggerUI(c =>
 {
-    c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
-    c.RoutePrefix = string.Empty; // Set Swagger UI at the app's root
+    c.SwaggerEndpoint("/swagger/v1/swagger.json", "Managerment Dealer Order V1");
+    c.RoutePrefix = string.Empty;
 });
 
 app.UseMiddleware<ProblemDetailsMiddleware>();

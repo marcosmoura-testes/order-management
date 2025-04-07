@@ -1,0 +1,10 @@
+D:\Testes_vagas\order-management\tests\OrderManagement.Tests\bin\Debug\net8.0\CoverletSourceRootsMapping_OrderManagement.Tests
+D:\Testes_vagas\order-management\tests\OrderManagement.Tests\obj\Debug\net8.0\OrderManagement.Tests.csproj.AssemblyReference.cache
+D:\Testes_vagas\order-management\tests\OrderManagement.Tests\obj\Debug\net8.0\OrderManagement.Tests.GeneratedMSBuildEditorConfig.editorconfig
+D:\Testes_vagas\order-management\tests\OrderManagement.Tests\obj\Debug\net8.0\OrderManagement.Tests.AssemblyInfoInputs.cache
+D:\Testes_vagas\order-management\tests\OrderManagement.Tests\obj\Debug\net8.0\OrderManagement.Tests.AssemblyInfo.cs
+D:\Testes_vagas\order-management\tests\OrderManagement.Tests\obj\Debug\net8.0\OrderManagement.Tests.csproj.CoreCompileInputs.cache
+D:\Testes_vagas\order-management\tests\OrderManagement.Tests\obj\Debug\net8.0\OrderManagement.Tests.sourcelink.json
+D:\Testes_vagas\order-management\tests\OrderManagement.Tests\obj\Debug\net8.0\OrderManagement.Tests.dll
+D:\Testes_vagas\order-management\tests\OrderManagement.Tests\obj\Debug\net8.0\refint\OrderManagement.Tests.dll
+D:\Testes_vagas\order-management\tests\OrderManagement.Tests\obj\Debug\net8.0\OrderManagement.Tests.pdb

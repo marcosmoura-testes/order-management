@@ -3,17 +3,50 @@ using FluentValidation;
 
 namespace Domain.Entity
 {
+    /// <summary>
+    /// Represents a client's order.
+    /// </summary>
     public class ClientOrder
     {
+        /// <summary>
+        /// Unique identifier for the client order.
+        /// </summary>
         public int Id { get; set; }
+
+        /// <summary>
+        /// Date and time when the order was created.
+        /// </summary>
         public DateTime CreatedAt { get; set; }
+
+        /// <summary>
+        /// CNPJ of the client who placed the order.
+        /// </summary>
         public string ClientCNPJ { get; set; }
+
+        /// <summary>
+        /// Identifier for the dealer associated with the order.
+        /// </summary>
         public int DealerId { get; set; }
+
+        /// <summary>
+        /// Identifier for the status of the order.
+        /// </summary>
         public int StatusId { get; set; }
+
+        /// <summary>
+        /// Total amount of the order.
+        /// </summary>
         public decimal TotalAmount { get; set; }
+
+        /// <summary>
+        /// List of products in the client order.
+        /// </summary>
         public List<ClientOrderProduct> CLientOrderProducts { get; set; } = new List<ClientOrderProduct>();
     }
 
+    /// <summary>
+    /// Validator for the ClientOrder class.
+    /// </summary>
     public class ClientOrderValidator : AbstractValidator<ClientOrder>
     {
         public ClientOrderValidator()

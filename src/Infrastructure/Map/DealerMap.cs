@@ -13,21 +13,13 @@ namespace Infrastructure.Map
             builder.HasKey(d => d.Id);
 
             builder.Property(d => d.Id).ValueGeneratedOnAdd();
-
             builder.Property(d => d.Name).IsRequired().HasMaxLength(100);
-
             builder.Property(d => d.CNPJ).IsRequired().HasMaxLength(14);
-
             builder.Property(d => d.RazaoSocial).IsRequired().HasMaxLength(100);
-
             builder.Property(d => d.NomeFantasia).IsRequired().HasMaxLength(100);
-
             builder.Property(d => d.Email).IsRequired().HasMaxLength(100);
-
             builder.HasMany(d => d.PhonesDealer).WithOne().HasForeignKey(dc => dc.DealerId).OnDelete(DeleteBehavior.Cascade);
-
             builder.HasMany(d => d.ContacstDealer).WithOne().HasForeignKey(dc => dc.DealerId).OnDelete(DeleteBehavior.Cascade);
-
             builder.HasMany(d => d.DealerDeliveryAddress).WithOne().HasForeignKey(dda => dda.DealerId).OnDelete(DeleteBehavior.Cascade);
         }
     }
