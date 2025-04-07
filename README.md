@@ -37,7 +37,7 @@ This project is an order management system built with .NET 8 and Entity Framewor
 ### Step 4: Access the API
 1. Open your browser and navigate to:
    ```
-   http://localhost:5000/swagger
+   http://localhost:5067
    ```
    to access the Swagger UI and explore the API endpoints.
 
