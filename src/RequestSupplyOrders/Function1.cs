@@ -20,7 +20,7 @@ namespace RequestSupplyOrders
         /// </summary>
         /// <param name="myTimer">Timer information</param>
         [Function("RequestOrderFunction")]
-        public async Task Run([TimerTrigger("0 */3 * * * *")] TimerInfo myTimer)
+        public async Task Run([TimerTrigger("0 */5 * * * *")] TimerInfo myTimer)
         {
             _logger.LogInformation($"C# Timer trigger function started at: {DateTime.Now}");
 
